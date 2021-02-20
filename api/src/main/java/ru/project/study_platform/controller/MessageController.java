@@ -4,8 +4,13 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.project.study_platform.model.dto.MessageDTO;
+import ru.project.study_platform.model.entity.Message;
 import ru.project.study_platform.service.entityServices.messageService.MessageService;
+
+import java.util.List;
 
 @Controller
 public class MessageController {
@@ -16,8 +21,11 @@ public class MessageController {
         this.template = messagingTemplate;
         this.messageService = messageService;
     }
-
-    @MessageMapping("/message")
+    @GetMapping("/messages")
+    public List<Message> getMessages(@RequestParam Long groupId){
+        return messageService.getMessagesByGroupId(groupId);
+    }
+    @MessageMapping("/messages")
     public void processMessage(@Payload MessageDTO message) {
         messageService.createMessage(message);
         template.convertAndSendToUser(message.getGroupId().toString(),"/messages", "new message lolb");

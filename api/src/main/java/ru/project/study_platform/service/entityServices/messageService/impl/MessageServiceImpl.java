@@ -9,6 +9,8 @@ import ru.project.study_platform.repository.UserRepository;
 import ru.project.study_platform.service.entityFactories.MessageFactory;
 import ru.project.study_platform.service.entityServices.messageService.MessageService;
 
+import java.util.List;
+
 @Service
 public class MessageServiceImpl implements MessageService {
     private final MessageFactory messageFactory;
@@ -31,5 +33,12 @@ public class MessageServiceImpl implements MessageService {
                 userRepository.getOne(messageDTO.getSenderId())
         );
         messageRepository.save(message);
+    }
+
+    @Override
+    public List<Message> getMessagesByGroupId(Long groupId) {
+        return messageRepository.findAllByGroupChat(
+                groupRoomRepository.getOne(groupId).getGroupChat()
+        );
     }
 }

@@ -20,7 +20,7 @@ public class Group {
         this.groupRoomService = groupRoomService;
     }
 
-    @GetMapping(path = "/list", produces = "application/json")
+    @GetMapping( produces = "application/json")
     public List<GroupRoom> getGroupRooms(HttpServletRequest request, @RequestParam(required = false) String q) {
         User user = (User) request.getAttribute("user");
         if (q != null) {
@@ -29,7 +29,7 @@ public class Group {
         return groupRoomService.findAllForUser(user);
     }
 
-    @PutMapping(path = "/new", consumes = "application/json", produces = "application/json")
+    @PutMapping( consumes = "application/json", produces = "application/json")
     public UrlDTO createGroup(HttpServletRequest request, @RequestBody GroupDTO groupDTO, HttpServletResponse response) {
         User user = (User) request.getAttribute("user");
         if (!user.isTeacher()) {
