@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class UserDTO {
+public final class AuthUserDTO {
     private String email;
     private String username;
     private String userlastname;
@@ -17,7 +17,7 @@ public final class UserDTO {
     private String faculty;
     private String groupNumber;
 
-    public UserDTO(String username, String email){
+    public AuthUserDTO(String username, String email){
         this.email = email;
         this.username = username;
     }

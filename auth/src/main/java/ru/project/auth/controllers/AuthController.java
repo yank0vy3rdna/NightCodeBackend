@@ -7,7 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
-import ru.project.auth.model.dto.UserDTO;
+import ru.project.auth.model.dto.AuthUserDTO;
 import ru.project.auth.model.entities.AuthUser;
 import ru.project.auth.services.confirmationServices.ConfirmationService;
 import ru.project.auth.services.confirmationServices.exceptions.ConfirmLinkExpireDateException;
@@ -38,7 +38,7 @@ public class AuthController {
     }
 
     @RequestMapping(path = "/sign-up", method = RequestMethod.POST)
-    public ResponseEntity<String> register(@ModelAttribute UserDTO userDTO) {
+    public ResponseEntity<String> register(@ModelAttribute AuthUserDTO userDTO) {
         log.info(() -> "new user try to register. User name: " + userDTO.getEmail());
         try {
             userService.signUp(userDTO);
@@ -54,7 +54,7 @@ public class AuthController {
     }
 
     @RequestMapping(path = "/sign-in", method = RequestMethod.POST)
-    public ResponseEntity<String> createToken(@ModelAttribute UserDTO userDTO)  {
+    public ResponseEntity<String> createToken(@ModelAttribute AuthUserDTO userDTO)  {
         log.info(() -> "start authenticate user with email "+ userDTO.getEmail());
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));

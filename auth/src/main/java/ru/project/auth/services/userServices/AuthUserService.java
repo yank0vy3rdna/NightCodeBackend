@@ -1,7 +1,7 @@
 package ru.project.auth.services.userServices;
 
 
-import ru.project.auth.model.dto.UserDTO;
+import ru.project.auth.model.dto.AuthUserDTO;
 import ru.project.auth.model.entities.ClientRole;
 import ru.project.auth.model.entities.AuthUser;
 import ru.project.auth.services.userServices.exceptions.SamePasswordException;
@@ -9,7 +9,7 @@ import ru.project.auth.services.userServices.exceptions.UserAlreadyExistExceptio
 import ru.project.auth.services.userServices.exceptions.UserDoesNotExistException;
 
 public interface AuthUserService {
-  AuthUser signUp(UserDTO userDTO) throws UserAlreadyExistException;
+  AuthUser signUp(AuthUserDTO userDTO) throws UserAlreadyExistException;
 
   AuthUser changeRole(String email, ClientRole role) throws UserDoesNotExistException;
 

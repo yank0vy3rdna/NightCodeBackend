@@ -7,6 +7,7 @@ import ru.project.study_platform.model.entity.User;
 import ru.project.study_platform.repository.GroupRoomRepository;
 import ru.project.study_platform.service.entityFactories.groupRoomFactories.GroupRoomFactory;
 import ru.project.study_platform.service.entityServices.groupRoomService.GroupRoomService;
+import ru.project.study_platform.service.entityServices.groupRoomService.excaptions.GroupRoomNotFoundExceptions;
 
 import java.util.List;
 
@@ -38,11 +39,13 @@ public class GroupRoomServiceImpl implements GroupRoomService {
     }
 
     @Override
-    public GroupRoom addNewMember(User user,  String groupNameHash) {
+    public GroupRoom addNewMember(User user,  String groupNameHash) throws GroupRoomNotFoundExceptions {
         GroupRoom groupRoom = groupRoomRepository.findGroupRoomByHashId(groupNameHash);
         if(groupRoom == null){
-
+            throw new GroupRoomNotFoundExceptions();
         }
+        groupRoom.getUsers().add(user);
+        return groupRoomRepository.save(groupRoom);
     }
 
     @Override

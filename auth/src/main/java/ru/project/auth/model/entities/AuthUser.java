@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "auth_users")
-public final class AuthUser implements UserDetails { // maybe separate on basic user and SecurityUser, idn
+public final class AuthUser implements UserDetails {
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,6 +59,10 @@ public final class AuthUser implements UserDetails { // maybe separate on basic 
 
 
     private String facutly;
+
+    private String groupNumber;
+
+
 
     @PrePersist
     private void onCreate(){

@@ -3,9 +3,8 @@ package ru.project.study_platform.utils.filters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ru.project.auth.model.entities.AuthUser;
-import ru.project.auth.model.repository.AuthUserRepository;
-import ru.project.auth.utils.tokens.JwtUtil;
+import ru.project.study_platform.repository.UserRepository;
+import ru.project.study_platform.utils.jwtUtils.JwtUtil;
 
 
 import javax.servlet.FilterChain;
@@ -17,11 +16,11 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private final AuthUserRepository userRepository;
+    private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public JwtRequestFilter(AuthUserRepository userRepository, JwtUtil jwtUtil) {
+    public JwtRequestFilter(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
     }
@@ -29,17 +28,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         final String authorizationHeader = httpServletRequest.getHeader("Authorization");
-        Long userId = null;
+        String email = null;
         String jwt = null;
 
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
             jwt = authorizationHeader.substring(7);
-            userId = Long.valueOf(jwtUtil.extractUserIdFromToken(jwt));
+            email = jwtUtil.extractUserEmailFromToken(jwt);
         }
-
-        if (userId != null){
-            AuthUser user = userRepository.getOne(userId);
-            if(jwtUtil.validateToken(jwt, user)){
+        if (email != null){
+            if(jwtUtil.validateToken(jwt)){
+                httpServletRequest.setAttribute("user", userRepository.findUserByEmail(email));
                 filterChain.doFilter(httpServletRequest, httpServletResponse);
                 return;
             }

@@ -4,10 +4,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.project.auth.model.dto.UserDTO;
+import ru.project.auth.model.dto.AuthUserDTO;
 import ru.project.auth.model.entities.ClientRole;
 import ru.project.auth.model.entities.AuthUser;
-import ru.project.auth.model.factories.userFactories.UserFactory;
+import ru.project.auth.model.factories.userFactories.AuthUserFactory;
 import ru.project.auth.model.repository.AuthUserRepository;
 import ru.project.auth.services.userServices.AuthUserService;
 import ru.project.auth.services.userServices.exceptions.SamePasswordException;
@@ -22,17 +22,18 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthUserRepository userRepository;
-    private final UserFactory userFactory;
+    private final AuthUserFactory userFactory;
 
     @Autowired
-    public AuthUserServiceImpl(BCryptPasswordEncoder passwordEncoder, AuthUserRepository userRepository, UserFactory userFactory) {
+    public AuthUserServiceImpl(BCryptPasswordEncoder passwordEncoder, AuthUserRepository userRepository, AuthUserFactory userFactory) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.userFactory = userFactory;
+
     }
 
     @Override
-    public AuthUser signUp(UserDTO userDTO) throws UserAlreadyExistException {
+    public AuthUser signUp(AuthUserDTO userDTO) throws UserAlreadyExistException {
         log.info(() -> "IN UserService new user try to register!");
 
         AuthUser checkedUser = userRepository.findByEmail(userDTO.getEmail());

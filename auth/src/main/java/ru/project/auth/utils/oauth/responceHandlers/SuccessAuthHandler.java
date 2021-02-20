@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.project.auth.model.entities.AuthType;
 import ru.project.auth.model.entities.AuthUser;
-import ru.project.auth.model.factories.userFactories.UserFactory;
+import ru.project.auth.model.factories.userFactories.AuthUserFactory;
 import ru.project.auth.model.repository.AuthUserRepository;
 import ru.project.auth.utils.tokens.JwtUtil;
 
@@ -26,12 +26,12 @@ import java.util.*;
 public class SuccessAuthHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final AuthUserRepository userRepository;
-    private final UserFactory userFactory;
+    private final AuthUserFactory userFactory;
     private final JwtUtil jwtUtil;
     private final String REDIRECT_SUCCESS_URI = "http://localhost:8080";
 
     @Autowired
-    public SuccessAuthHandler(AuthUserRepository userRepository, UserFactory userFactory, JwtUtil jwtUtil) {
+    public SuccessAuthHandler(AuthUserRepository userRepository, AuthUserFactory userFactory, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.userFactory = userFactory;
         this.jwtUtil = jwtUtil;
