@@ -1,11 +1,11 @@
 package ru.yank0vy3rdna.study_platform.controller;
 
 import org.springframework.web.bind.annotation.*;
-import ru.yank0vy3rdna.study_platform.model.GroupRoom;
-import ru.yank0vy3rdna.study_platform.model.User;
+import ru.yank0vy3rdna.study_platform.model.entity.GroupRoom;
+import ru.yank0vy3rdna.study_platform.model.entity.User;
 import ru.yank0vy3rdna.study_platform.model.dto.GroupDTO;
 import ru.yank0vy3rdna.study_platform.model.dto.UrlDTO;
-import ru.yank0vy3rdna.study_platform.service.GroupRoomService;
+import ru.yank0vy3rdna.study_platform.service.groupChatService.GroupRoomService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

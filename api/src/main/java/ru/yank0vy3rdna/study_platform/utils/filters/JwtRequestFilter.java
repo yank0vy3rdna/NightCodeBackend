@@ -3,7 +3,7 @@ package ru.yank0vy3rdna.study_platform.utils.filters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ru.yank0vy3rdna.study_platform.model.User;
+import ru.yank0vy3rdna.study_platform.model.entity.User;
 import ru.yank0vy3rdna.study_platform.repository.UserRepository;
 import ru.yank0vy3rdna.study_platform.utils.tokens.JwtUtil;
 

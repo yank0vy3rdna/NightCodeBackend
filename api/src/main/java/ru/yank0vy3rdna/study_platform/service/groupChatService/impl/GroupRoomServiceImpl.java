@@ -1,10 +1,11 @@
-package ru.yank0vy3rdna.study_platform.service.impl;
+package ru.yank0vy3rdna.study_platform.service.groupChatService.impl;
 
 import org.springframework.stereotype.Service;
-import ru.yank0vy3rdna.study_platform.model.GroupRoom;
-import ru.yank0vy3rdna.study_platform.model.User;
+import ru.yank0vy3rdna.study_platform.model.dto.GroupDTO;
+import ru.yank0vy3rdna.study_platform.model.entity.GroupRoom;
+import ru.yank0vy3rdna.study_platform.model.entity.User;
 import ru.yank0vy3rdna.study_platform.repository.GroupRoomRepository;
-import ru.yank0vy3rdna.study_platform.service.GroupRoomService;
+import ru.yank0vy3rdna.study_platform.service.groupChatService.GroupRoomService;
 
 import java.util.List;
 
@@ -27,7 +28,18 @@ public class GroupRoomServiceImpl implements GroupRoomService {
     }
 
     @Override
-    public void save(GroupRoom room) {
-        groupRoomRepository.save(room);
+    public GroupRoom addNewGroupRoom(GroupDTO groupDTO, User user) {
+        return null;
     }
+
+    @Override
+    public GroupRoom addNewMember(User user) {
+        return null;
+    }
+
+    @Override
+    public GroupRoom getGroupRoom(String HashID) {
+        return null;
+    }
+
 }
