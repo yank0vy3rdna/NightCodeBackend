@@ -8,7 +8,6 @@ import ru.project.auth.model.repository.AuthUserRepository;
 import ru.project.auth.utils.tokens.JwtUtil;
 
 
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +38,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (userId != null){
-            AuthUser user = authUserRepository.getOne(userId);
+            AuthUser user = userRepository.getOne(userId);
             if(jwtUtil.validateToken(jwt, user)){
                 filterChain.doFilter(httpServletRequest, httpServletResponse);
                 return;
