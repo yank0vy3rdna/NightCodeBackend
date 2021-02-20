@@ -20,6 +20,6 @@ public class MessageController {
     @MessageMapping("/message")
     public void processMessage(@Payload MessageDTO message) {
         messageService.createMessage(message);
-        template.convertAndSendToUser(message.getGroupId().toString(),"/messages", message);
+        template.convertAndSendToUser(message.getGroupId().toString(),"/messages", "new message lolb");
     }
 }
