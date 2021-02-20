@@ -14,5 +14,6 @@
     </properties>
     <modules>
         <module>api</module>
+        <module>auth</module>
     </modules>
 </project>
