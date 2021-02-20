@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GroupChat extends IdBaseEntity{
-    @OneToMany(mappedBy="groupChat")
+    @OneToMany(mappedBy="groupChat", fetch = FetchType.LAZY)
     @OrderBy("datetime")
     private List<Message> messages;
 

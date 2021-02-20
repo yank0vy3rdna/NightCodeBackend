@@ -15,10 +15,10 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Message extends IdBaseEntity{
-    @OneToOne(targetEntity = User.class)
+    @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     private User sender;
 
-    @ManyToOne(targetEntity = GroupChat.class)
+    @ManyToOne(targetEntity = GroupChat.class, fetch = FetchType.LAZY)
     private GroupChat groupChat;
 
     @Column(name = "content")

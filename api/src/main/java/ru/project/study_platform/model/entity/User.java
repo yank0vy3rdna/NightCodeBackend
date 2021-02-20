@@ -41,7 +41,7 @@ public class User extends IdBaseEntity {
     @Column(name = "user_type")
     private Type userType;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "grouprooms_users",
             joinColumns = @JoinColumn(name = "user_id"),

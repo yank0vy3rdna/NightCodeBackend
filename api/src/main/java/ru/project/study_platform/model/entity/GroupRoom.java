@@ -18,7 +18,7 @@ public class GroupRoom extends IdBaseEntity{
     @OneToOne
     private GroupChat groupChat;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "grouprooms_users",
             joinColumns = @JoinColumn(name = "grouproom_id"),
