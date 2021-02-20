@@ -38,7 +38,7 @@ public class AuthController {
     }
 
     @RequestMapping(path = "/sign-up", method = RequestMethod.POST)
-    public ResponseEntity<String> register(@ModelAttribute AuthUserDTO userDTO) {
+    public ResponseEntity<String> register(@RequestBody AuthUserDTO userDTO) {
         log.info(() -> "new user try to register. User name: " + userDTO.getEmail());
         try {
             userService.signUp(userDTO);

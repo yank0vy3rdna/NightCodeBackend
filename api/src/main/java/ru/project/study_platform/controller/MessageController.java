@@ -29,16 +29,18 @@ public class MessageController {
         this.groupRoomRepository = groupRoomRepository;
     }
 
-    @GetMapping("/messages")
+    @GetMapping(value = "/messages", produces = "application/json")
     public List<Message> getMessages(@RequestParam Long groupId, HttpServletRequest request, HttpServletResponse response) {
         User user = (User) request.getAttribute("user");
         GroupRoom groupRoom = groupRoomRepository.getOne(groupId);
-        if (groupRoom.getUsers().contains(user))
-            return messageService.getMessagesByGroupId(groupId);
-        else {
-            response.setStatus(409);
-            return null;
+        for (User i : groupRoom.getUsers()){
+            if (user.getId().equals(i.getId())){
+                List<Message> messages = messageService.getMessagesByGroupId(groupId);
+                return messages;
+            }
         }
+        response.setStatus(409);
+        return null;
     }
 
     @MessageMapping("/messages")
