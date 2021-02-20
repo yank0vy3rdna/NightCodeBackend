@@ -13,10 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/group/")
-public class Group {
+public class GroupController {
     private final GroupRoomService groupRoomService;
 
-    public Group(GroupRoomService groupRoomService) {
+    public GroupController(GroupRoomService groupRoomService) {
         this.groupRoomService = groupRoomService;
     }
 
