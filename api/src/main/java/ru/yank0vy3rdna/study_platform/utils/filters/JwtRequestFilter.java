@@ -3,9 +3,11 @@ package ru.yank0vy3rdna.study_platform.utils.filters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ru.yank0vy3rdna.study_platform.model.entity.User;
-import ru.yank0vy3rdna.study_platform.repository.UserRepository;
-import ru.yank0vy3rdna.study_platform.utils.tokens.JwtUtil;
+import ru.project.auth.model.entities.AuthUser;
+import ru.project.auth.model.repository.AuthUserRepository;
+import ru.project.auth.utils.tokens.JwtUtil;
+
+
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,11 +18,11 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private final UserRepository userRepository;
+    private final AuthUserRepository userRepository;
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public JwtRequestFilter(UserRepository userRepository, JwtUtil jwtUtil) {
+    public JwtRequestFilter(AuthUserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
     }
@@ -37,7 +39,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (userId != null){
-            User user = userRepository.getOne(userId);
+            AuthUser user = authUserRepository.getOne(userId);
             if(jwtUtil.validateToken(jwt, user)){
                 filterChain.doFilter(httpServletRequest, httpServletResponse);
                 return;
