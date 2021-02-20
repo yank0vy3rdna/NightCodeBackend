@@ -5,9 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.project.auth.model.dto.AuthUserDTO;
+import ru.project.auth.model.entities.ApiUser;
 import ru.project.auth.model.entities.ClientRole;
 import ru.project.auth.model.entities.AuthUser;
+import ru.project.auth.model.factories.apiUsersFactory.ApiUserFactory;
 import ru.project.auth.model.factories.userFactories.AuthUserFactory;
+import ru.project.auth.model.repository.ApiUserRepository;
 import ru.project.auth.model.repository.AuthUserRepository;
 import ru.project.auth.services.userServices.AuthUserService;
 import ru.project.auth.services.userServices.exceptions.SamePasswordException;
@@ -23,13 +26,17 @@ public class AuthUserServiceImpl implements AuthUserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthUserRepository userRepository;
     private final AuthUserFactory userFactory;
+    private final ApiUserRepository apiUserRepository;
+    private final ApiUserFactory apiUserFactory;
+
 
     @Autowired
-    public AuthUserServiceImpl(BCryptPasswordEncoder passwordEncoder, AuthUserRepository userRepository, AuthUserFactory userFactory) {
+    public AuthUserServiceImpl(BCryptPasswordEncoder passwordEncoder, AuthUserRepository userRepository, AuthUserFactory userFactory, ApiUserRepository apiUserRepository, ApiUserFactory apiUserFactory) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.userFactory = userFactory;
-
+        this.apiUserRepository = apiUserRepository;
+        this.apiUserFactory = apiUserFactory;
     }
 
     @Override
@@ -44,7 +51,10 @@ public class AuthUserServiceImpl implements AuthUserService {
         }
 
         checkedUser = userFactory.createDefaultUser(userDTO, ClientRole.STUDENT);
+        ApiUser apiUser = apiUserFactory.createUser(userDTO);
         userRepository.saveAndFlush(checkedUser);
+        apiUserRepository.saveAndFlush(apiUser);
+        System.out.println("LOLOLOLOL");
         log.info(() -> "new user successfully loaded in db!");
         return checkedUser;
     }

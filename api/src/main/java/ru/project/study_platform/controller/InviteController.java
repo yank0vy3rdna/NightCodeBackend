@@ -34,5 +34,6 @@ public class InviteController {
         User user = (User) request.getAttribute("user");
         GroupRoom groupRoom = groupRoomRepository.findGroupRoomByHashId(hashId);
         groupRoom.getUsers().add(user);
+        groupRoomRepository.save(groupRoom);
     }
 }
