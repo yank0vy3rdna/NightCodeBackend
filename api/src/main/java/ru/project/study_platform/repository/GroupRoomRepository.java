@@ -11,4 +11,5 @@ import java.util.List;
 public interface GroupRoomRepository extends JpaRepository<GroupRoom, Long> {
     List<GroupRoom> findAllByUsersContains(User user);
     List<GroupRoom> findAllByUsersContainsAndNameContains(User user, String query);
+    GroupRoom findGroupRoomByHashId(String hashId);
 }
