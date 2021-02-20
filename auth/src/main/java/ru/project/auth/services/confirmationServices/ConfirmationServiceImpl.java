@@ -4,10 +4,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.project.auth.model.entities.Confirmation;
-import ru.project.auth.model.entities.User;
+import ru.project.auth.model.entities.AuthUser;
 import ru.project.auth.model.factories.confirmationFactories.ConfirmationLinkFactory;
 import ru.project.auth.model.repository.ConfirmationRepository;
-import ru.project.auth.model.repository.UserRepository;
+import ru.project.auth.model.repository.AuthUserRepository;
 import ru.project.auth.services.confirmationServices.exceptions.ConfirmLinkExpireDateException;
 import ru.project.auth.services.confirmationServices.exceptions.UnknownLinkException;
 import ru.project.auth.utils.mails.MailSender;
@@ -21,11 +21,11 @@ public class ConfirmationServiceImpl implements ConfirmationService {
 
     private final ConfirmationLinkFactory linkFactory;
     private final ConfirmationRepository repository;
-    private final UserRepository userRepository;
+    private final AuthUserRepository userRepository;
     private final MailSender mailSender;
 
     @Autowired
-    public ConfirmationServiceImpl(ConfirmationLinkFactory linkFactory, ConfirmationRepository repository, UserRepository userRepository, MailSender mailSender) {
+    public ConfirmationServiceImpl(ConfirmationLinkFactory linkFactory, ConfirmationRepository repository, AuthUserRepository userRepository, MailSender mailSender) {
         this.linkFactory = linkFactory;
         this.repository = repository;
         this.userRepository = userRepository;
@@ -53,7 +53,7 @@ public class ConfirmationServiceImpl implements ConfirmationService {
             throw new ConfirmLinkExpireDateException();
         }
 
-        User user = userRepository.findByEmail(confirmation.getAccountEmail());
+        AuthUser user = userRepository.findByEmail(confirmation.getAccountEmail());
         user.setEnabled(true);
         userRepository.saveAndFlush(user);
 

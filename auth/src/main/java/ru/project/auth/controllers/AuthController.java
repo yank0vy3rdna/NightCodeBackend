@@ -2,40 +2,34 @@ package ru.project.auth.controllers;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationProvider;
 import org.springframework.web.bind.annotation.*;
 import ru.project.auth.model.dto.UserDTO;
-import ru.project.auth.model.entities.User;
+import ru.project.auth.model.entities.AuthUser;
 import ru.project.auth.services.confirmationServices.ConfirmationService;
 import ru.project.auth.services.confirmationServices.exceptions.ConfirmLinkExpireDateException;
 import ru.project.auth.services.confirmationServices.exceptions.UnknownLinkException;
-import ru.project.auth.services.userServices.UserService;
+import ru.project.auth.services.userServices.AuthUserService;
 import ru.project.auth.services.userServices.exceptions.UserAlreadyExistException;
 import ru.project.auth.utils.tokens.JwtUtil;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Enumeration;
 
 @Log4j2
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserService userService;
+    private final AuthUserService userService;
     private final ConfirmationService confirmationService;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public AuthController(UserService userService, ConfirmationService confirmationService, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+    public AuthController(AuthUserService userService, ConfirmationService confirmationService, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.userService = userService;
         this.confirmationService = confirmationService;
         this.authenticationManager = authenticationManager;
@@ -64,7 +58,7 @@ public class AuthController {
         log.info(() -> "start authenticate user with email "+ userDTO.getEmail());
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
-            final User user = userService.findByEmail(userDTO.getEmail());
+            final AuthUser user = userService.findByEmail(userDTO.getEmail());
             return ResponseEntity.status(200).body(jwtUtil.generateToken(user));
         } catch (BadCredentialsException e){
             log.warn(e.getMessage());

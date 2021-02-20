@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "auth_users")
-public final class User implements UserDetails { // maybe separate on basic user and SecurityUser, idn
+public final class AuthUser implements UserDetails { // maybe separate on basic user and SecurityUser, idn
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

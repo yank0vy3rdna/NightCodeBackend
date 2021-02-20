@@ -3,15 +3,10 @@ package ru.project.auth.utils.tokens;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import ru.project.auth.model.entities.User;
+import ru.project.auth.model.entities.AuthUser;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -43,12 +38,12 @@ public class JwtUtil {
         return extractExpirationFromToken(token).before(new Date());
     }
 
-    public String generateToken(User user){
+    public String generateToken(AuthUser user){
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, user);
     }
 
-    private String createToken(Map<String, Object> claims, User user){
+    private String createToken(Map<String, Object> claims, AuthUser user){
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(String.valueOf(user.getId()))
@@ -57,7 +52,7 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS512, SECRET_WORD).compact();
     }
 
-    public Boolean validateToken(String token, User user){
+    public Boolean validateToken(String token, AuthUser user){
         final Long userId = Long.parseLong(extractUserIdFromToken(token));
         return (userId.equals(user.getId()) && !isTokenExpired(token));
     }
