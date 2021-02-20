@@ -10,6 +10,6 @@ public interface GroupRoomService {
     List<GroupRoom> findAllForUser(User user);
     List<GroupRoom> findAllForUserWithSearch(User user, String q);
     GroupRoom addNewGroupRoom(GroupDTO groupDTO, User user);
-    GroupRoom addNewMember(User user);
+    GroupRoom addNewMember(User user, String groupNameHash);
     GroupRoom getGroupRoom(String HashID);
 }

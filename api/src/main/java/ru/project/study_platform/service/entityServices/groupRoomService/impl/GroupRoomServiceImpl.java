@@ -5,6 +5,7 @@ import ru.project.study_platform.model.dto.GroupDTO;
 import ru.project.study_platform.model.entity.GroupRoom;
 import ru.project.study_platform.model.entity.User;
 import ru.project.study_platform.repository.GroupRoomRepository;
+import ru.project.study_platform.service.entityFactories.groupRoomFactories.GroupRoomFactory;
 import ru.project.study_platform.service.entityServices.groupRoomService.GroupRoomService;
 
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.List;
 @Service
 public class GroupRoomServiceImpl implements GroupRoomService {
     private final GroupRoomRepository groupRoomRepository;
+    private final GroupRoomFactory groupRoomFactory;
 
-    public GroupRoomServiceImpl(GroupRoomRepository groupRoomRepository) {
+    public GroupRoomServiceImpl(GroupRoomRepository groupRoomRepository, GroupRoomFactory groupRoomFactory) {
         this.groupRoomRepository = groupRoomRepository;
+        this.groupRoomFactory = groupRoomFactory;
     }
 
     @Override
@@ -29,12 +32,17 @@ public class GroupRoomServiceImpl implements GroupRoomService {
 
     @Override
     public GroupRoom addNewGroupRoom(GroupDTO groupDTO, User user) {
-        return null;
+        GroupRoom groupRoom = groupRoomFactory.createNewGroupRoom(groupDTO);
+        groupRoom.getUsers().add(user);
+        return groupRoomRepository.save(groupRoom);
     }
 
     @Override
-    public GroupRoom addNewMember(User user) {
-        return null;
+    public GroupRoom addNewMember(User user,  String groupNameHash) {
+        GroupRoom groupRoom = groupRoomRepository.findGroupRoomByHashId(groupNameHash);
+        if(groupRoom == null){
+
+        }
     }
 
     @Override
